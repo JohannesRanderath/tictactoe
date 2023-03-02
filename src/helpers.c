@@ -9,3 +9,11 @@ char *multiply_string(char *s, int times) {
 	}
 	return result;
 }
+
+int min(int a, int b) {
+	return a < b ? a : b;
+}
+
+int max(int a, int b) {
+	return a > b ? a : b;
+}

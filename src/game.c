@@ -33,7 +33,7 @@ int check_cols() {
 		int len_set = 0;
 		int player_set = 0;
 		for (int j = 0; j < n_rows; j++) {
-			if (player_set == board[j][i]) {
+			if (board[j][i] && player_set == board[j][i]) {
 				len_set++;
 				if (len_set >= n_set) return player_set;
 			}

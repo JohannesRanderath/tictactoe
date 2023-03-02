@@ -114,6 +114,15 @@ int check_diags() {
 	return 0;
 }
 
+int board_full() {
+	for (int i = 0; i < n_rows; i++) {
+		for (int j = 0; j < n_cols; j++) {
+			if (board[i][j] == 0) return 0;
+		}
+	}
+	return 1;
+}
+
 // Public functions
 
 int get_n_rows() {
@@ -154,6 +163,7 @@ int set(int row, int col, int player) {
 }
 
 int check() {
+	if (board_full()) return -1;
 	int rows = check_rows();
 	if (rows) return rows;
 	int cols = check_cols();
@@ -169,7 +179,7 @@ void print_board() {
 			if (!board[i][j]) printf("| ");
 			else if (n_players == 2) {
 				if (board[i][j] == 1) printf("|X");
-				else printf("O");
+				else printf("|O");
 			}
 			else printf("|%d", board[i][j]);
 		}

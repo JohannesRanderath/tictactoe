@@ -31,7 +31,7 @@ void start_game() {
 
 int move() {
 	printf("It's your turn, Player %d", turn);
-	if (get_n_players() == 2) printf("[%c]", turn == 1 ? 'X' : 'O');
+	if (get_n_players() == 2) printf(" [%c]", turn == 1 ? 'X' : 'O');
 	printf("!\n");
 	char *buff = calloc(20, sizeof(char*));
 	int row;
@@ -41,8 +41,19 @@ int move() {
 		fgets(buff, 20, stdin);
 	}while(sscanf(buff, "%d%d", &col, &row) != 2 || !set(row, col, turn));
 	print_board();
-	if (!check()) return 1;
-	return 0;
+	int winner = check();
+	if (winner) {
+		if (winner == -1) printf("It's a tie!\n");
+		else {
+			printf("Congratulations, Player %d", winner);
+			if (get_n_players() == 2) printf(" [%c]", turn == 1 ? 'X' : 'O');
+			printf(", you won!\n");
+		}
+		return 0;
+	}
+	turn++;
+	if (turn > get_n_players()) turn = 1;
+	return 1;
 }
 
 int main() {

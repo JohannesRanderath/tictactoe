@@ -124,6 +124,10 @@ int get_n_cols() {
 	return n_cols;
 }
 
+int get_n_players() {
+	return n_players;
+}
+
 void new_game(int rows, int cols, int len_set, int players) {
 	assert(rows > 0 && cols > 0 && set > 0);
 	n_rows = rows;
@@ -144,9 +148,9 @@ void end_game() {
 }
 
 int set(int row, int col, int player) {
-	if (player < 1 || !is_free(row, col)) return -1;
+	if (player < 1 || !is_free(row, col) || player > n_players) return 0;
 	board[row][col] = player;
-	return 0;
+	return 1;
 }
 
 int check() {
@@ -162,7 +166,12 @@ void print_board() {
 	for (int i = 0; i < n_rows; i++) {
 		printf("%s\n", line);
 		for (int j = 0; j < n_cols; j++) {
-			printf("|%d", board[i][j]);
+			if (!board[i][j]) printf("| ");
+			else if (n_players == 2) {
+				if (board[i][j] == 1) printf("|X");
+				else printf("O");
+			}
+			else printf("|%d", board[i][j]);
 		}
 		printf("|\n");
 	}

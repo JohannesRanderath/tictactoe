@@ -1,5 +1,9 @@
 CARGS = -std=c11 -Wall -g
 
+play: helpers game
+	gcc $(CARGS) -c src/play.c -o play.o
+	gcc $(CARGS) helpers.o game.o play.o -o play
+
 game: src/game.c src/game.h src/helpers.h
 	gcc $(CARGS) -c src/game.c -o game.o
 

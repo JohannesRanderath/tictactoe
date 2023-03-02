@@ -1,0 +1,16 @@
+.DS_Store
+.vscode
+Thumbs.db
+.idea
+*.o
+*.pyc
+*.class
+/bin
+/out
+/target
+*.log
+*.lock
+*.tmp
+*.backup
+launch.json
+play

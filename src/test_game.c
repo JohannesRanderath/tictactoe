@@ -36,15 +36,14 @@ void test_get_n_cols() {
 
 void test_set() {
 	new_game(5,7,3,2);
-	assert(set(0,0,1) == 0);
+	assert(set(0,0,1) == 1);
 	assert(board[0][0] == 1);
-	assert(set(0,0,2) == -1);
+	assert(set(0,0,2) == 0);
 	assert(board[0][0] == 1);
-	assert(set(0,3,1) == 0);
+	assert(set(0,3,1) == 1);
 	assert(board[0][3] == 1);
 	assert(set(3,5,4) == 0);
-	assert(board[3][5] == 4);
-	assert(set(6,0,1) == -1);
+	assert(set(6,0,1) == 0);
 	end_game();
 	printf("set OK.\n");
 }
@@ -61,6 +60,18 @@ void test_check_rows() {
 	set(1,0,0); set(1,1,0); set(1,2,0);
 	set(2,0,0); set(2,1,0); set(2,2,2);
 	assert(check_rows() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,1); set(0,2,1);
+	set(1,0,0); set(1,1,0); set(1,2,0);
+	set(2,0,0); set(2,1,0); set(2,2,2);
+	assert(check_rows() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,1); set(0,2,0);
+	set(1,0,0); set(1,1,0); set(1,2,1);
+	set(2,0,0); set(2,1,2); set(2,2,2);
+	assert(check_rows() == 2);
 	end_game();
 	new_game(3,3,2,2);
 	set(0,0,0); set(0,1,0); set(0,2,0);
@@ -101,7 +112,7 @@ void test_check_rows() {
 	set(5,0,0); set(5,1,2); set(5,2,0); set(5,3,0); set(5,4,0);
 	assert(check_rows() == 0);
 	end_game();
-	printf("check_rows OK.");
+	printf("check_rows OK.\n");
 }
 
 void test_check_cols() {
@@ -116,6 +127,12 @@ void test_check_cols() {
 	set(1,0,0); set(1,1,1); set(1,2,0);
 	set(2,0,0); set(2,1,0); set(2,2,2);
 	assert(check_cols() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,2); set(0,2,0);
+	set(1,0,0); set(1,1,1); set(1,2,2);
+	set(2,0,0); set(2,1,0); set(2,2,2);
+	assert(check_cols() == 2);
 	end_game();
 	new_game(3,3,2,2);
 	set(0,0,0); set(0,1,0); set(0,2,0);
@@ -133,10 +150,10 @@ void test_check_cols() {
 	set(0,0,0); set(0,1,0); set(0,2,0); set(0,3,0); set(0,4,0);
 	set(1,0,1); set(1,1,1); set(1,2,0); set(1,3,0); set(1,4,0);
 	set(2,0,0); set(2,1,4); set(2,2,2); set(2,3,2); set(2,4,0);
-	set(3,0,0); set(3,1,4); set(3,2,0); set(3,3,0); set(3,4,0);
+	set(3,0,0); set(3,1,4); set(3,2,0); set(3,3,0); set(3,4,1);
 	set(4,0,0); set(4,1,4); set(4,2,1); set(4,3,1); set(4,4,0);
-	set(5,0,0); set(5,1,2); set(5,2,0); set(5,3,0); set(5,4,0);
-	assert(check_cols() == 1);
+	set(5,0,0); set(5,1,2); set(5,2,0); set(5,3,0); set(5,4,1);
+	assert(check_cols() == 4);
 	end_game();
 	new_game(6,5,3,4);
 	set(0,0,1); set(0,1,2); set(0,2,3); set(0,3,4); set(0,4,1);
@@ -156,7 +173,143 @@ void test_check_cols() {
 	set(5,0,0); set(5,1,2); set(5,2,2); set(5,3,2); set(5,4,0);
 	assert(check_cols() == 0);
 	end_game();
-	printf("check_cols OK.");
+	printf("check_cols OK.\n");
+}
+
+void test_check_diags_fixed_row_fwd() {
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,0); set(0,2,0);
+	set(1,0,0); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,1); set(2,2,0);
+	assert(check_diags_fixed_row_fwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,1); set(0,1,2); set(0,2,0);
+	set(1,0,0); set(1,1,1); set(1,2,0);
+	set(2,0,0); set(2,1,0); set(2,2,1);
+	assert(check_diags_fixed_row_fwd() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,2); set(0,2,0);
+	set(1,0,1); set(1,1,0); set(1,2,2);
+	set(2,0,0); set(2,1,1); set(2,2,1);
+	assert(check_diags_fixed_row_fwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,1); set(0,2,0);
+	set(1,0,0); set(1,1,0); set(1,2,1);
+	set(2,0,0); set(2,1,2); set(2,2,2);
+	assert(check_diags_fixed_row_fwd() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,0);
+	set(1,0,2); set(1,1,0); set(1,2,0);
+	set(2,0,2); set(2,1,0); set(2,2,0);
+	assert(check_diags_fixed_row_fwd() == 0);
+	end_game();
+	printf("check_diags_fixed_row_fwd OK.\n");
+}
+
+void test_check_diags_fixed_col_fwd() {
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,0); set(0,2,0);
+	set(1,0,0); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,0); set(2,2,2);
+	assert(check_diags_fixed_col_fwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,0);
+	set(1,0,1); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,1); set(2,2,0);
+	assert(check_diags_fixed_col_fwd() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,2); set(0,2,0);
+	set(1,0,0); set(1,1,2); set(1,2,2);
+	set(2,0,0); set(2,1,0); set(2,2,1);
+	assert(check_diags_fixed_col_fwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,0);
+	set(1,0,0); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,1); set(2,2,2);
+	assert(check_diags_fixed_col_fwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,1); set(0,2,0);
+	set(1,0,2); set(1,1,0); set(1,2,1);
+	set(2,0,0); set(2,1,2); set(2,2,0);
+	assert(check_diags_fixed_col_fwd() == 2);
+	end_game();
+	printf("check_diags_fixed_col_fwd OK.\n");
+}
+
+void test_check_diags_fixed_row_bwd() {
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,2);
+	set(1,0,0); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,2); set(2,2,0);
+	assert(check_diags_fixed_row_bwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,2); set(0,2,0);
+	set(1,0,0); set(1,1,1); set(1,2,0);
+	set(2,0,1); set(2,1,0); set(2,2,2);
+	assert(check_diags_fixed_row_bwd() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,2); set(0,2,0);
+	set(1,0,2); set(1,1,1); set(1,2,2);
+	set(2,0,0); set(2,1,0); set(2,2,2);
+	assert(check_diags_fixed_row_bwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,0);
+	set(1,0,0); set(1,1,0); set(1,2,2);
+	set(2,0,0); set(2,1,2); set(2,2,2);
+	assert(check_diags_fixed_row_bwd() == 0);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,1);
+	set(1,0,2); set(1,1,0); set(1,2,1);
+	set(2,0,0); set(2,1,2); set(2,2,2);
+	assert(check_diags_fixed_row_bwd() == 0);
+	end_game();
+	printf("check_diags_fixed_row_bwd OK.\n");
+}
+
+void test_check_diags_fixed_col_bwd() {
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,0); set(0,2,0);
+	set(1,0,0); set(1,1,1); set(1,2,0);
+	set(2,0,1); set(2,1,2); set(2,2,0);
+	assert(check_diags_fixed_col_bwd() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,1); set(0,1,1); set(0,2,2);
+	set(1,0,0); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,0); set(2,2,2);
+	assert(check_diags_fixed_col_bwd() == 2);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,2); set(0,2,0);
+	set(1,0,0); set(1,1,2); set(1,2,1);
+	set(2,0,0); set(2,1,1); set(2,2,2);
+	assert(check_diags_fixed_col_bwd() == 1);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,0); set(0,1,1); set(0,2,0);
+	set(1,0,1); set(1,1,0); set(1,2,0);
+	set(2,0,0); set(2,1,2); set(2,2,2);
+	assert(check_diags_fixed_col_bwd() == 0);
+	end_game();
+	new_game(3,3,2,2);
+	set(0,0,2); set(0,1,1); set(0,2,1);
+	set(1,0,2); set(1,1,0); set(1,2,1);
+	set(2,0,2); set(2,1,2); set(2,2,2);
+	assert(check_diags_fixed_col_bwd() == 0);
+	end_game();
+	printf("check_diags_fixed_col_bwd OK.\n");
 }
 
 void test_check_diags() {
@@ -182,12 +335,30 @@ void test_check_diags() {
 	set(0,0,0); set(0,1,0); set(0,2,0);
 	set(1,0,0); set(1,1,2); set(1,2,0);
 	set(2,0,0); set(2,1,2); set(2,2,2);
-	assert(check_diags() == 0);
+	assert(check_diags() == 2);
 	end_game();
 	new_game(3,3,2,2);
 	set(0,0,0); set(0,1,0); set(0,2,0);
 	set(1,0,1); set(1,1,0); set(1,2,0);
 	set(2,0,1); set(2,1,2); set(2,2,0);
+	assert(check_diags() == 0);
+	end_game();
+	new_game(3,3,3,2);
+	set(0,0,2); set(0,1,0); set(0,2,0);
+	set(1,0,0); set(1,1,2); set(1,2,0);
+	set(2,0,0); set(2,1,0); set(2,2,2);
+	assert(check_diags() == 2);
+	end_game();
+	new_game(3,3,3,2);
+	set(0,0,2); set(0,1,0); set(0,2,0);
+	set(1,0,1); set(1,1,1); set(1,2,0);
+	set(2,0,0); set(2,1,1); set(2,2,0);
+	assert(check_diags() == 0);
+	end_game();
+	new_game(3,3,3,2);
+	set(0,0,2); set(0,1,1); set(0,2,0);
+	set(1,0,1); set(1,1,1); set(1,2,0);
+	set(2,0,0); set(2,1,0); set(2,2,0);
 	assert(check_diags() == 0);
 	end_game();
 	new_game(6,5,3,4);
@@ -226,7 +397,7 @@ void test_check_diags() {
 	set(5,0,0); set(5,1,2); set(5,2,2); set(5,3,2); set(5,4,0);
 	assert(check_diags() == 0);
 	end_game();
-	printf("check_diags OK.");
+	printf("check_diags OK.\n");
 }
 
 void test_check() {
@@ -280,6 +451,16 @@ void test_check() {
 	set(4,0,0); set(4,1,0); set(4,2,1); set(4,3,1); set(4,4,0);
 	set(5,0,0); set(5,1,2); set(5,2,3); set(5,3,2); set(5,4,0);
 	assert(check() == 0);
+	end_game();
+	new_game(6,5,3,4);
+	set(0,0,1); set(0,1,2); set(0,2,1); set(0,3,4); set(0,4,1);
+	set(1,0,2); set(1,1,3); set(1,2,4); set(1,3,1); set(1,4,2);
+	set(2,0,3); set(2,1,1); set(2,2,4); set(2,3,4); set(2,4,3);
+	set(3,0,4); set(3,1,3); set(3,2,2); set(3,3,1); set(3,4,1);
+	set(4,0,2); set(4,1,1); set(4,2,1); set(4,3,2); set(4,4,3);
+	set(5,0,4); set(5,1,2); set(5,2,2); set(5,3,1); set(5,4,1);
+	//print_board();
+	assert(check() == -1);
 	end_game();
 	printf("check OK.\n");
 }

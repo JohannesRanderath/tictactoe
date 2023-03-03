@@ -17,3 +17,7 @@ int is_free(int row, int col);
 int check_rows();
 int check_cols();
 int check_diags();
+int check_diags_fixed_row_fwd();
+int check_diags_fixed_col_fwd();
+int check_diags_fixed_row_bwd();
+int check_diags_fixed_col_bwd();

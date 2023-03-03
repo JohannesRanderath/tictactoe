@@ -46,45 +46,53 @@ int check_cols() {
 	return 0;
 }
 
-int check_diags() {
-	for (int i = 0; i < n_cols - n_set; i++) {
+int check_diags_fixed_row_fwd() {
+	for (int i = 0; i <= n_cols - n_set; i++) {
 		int len_set = 0;
 		int player_set = 0;
 		int j = 0;
 		while (i+j < n_cols && j < n_rows) {
-			if (player_set == board[j][i+j]) {
+			if (board[j][i+j] && player_set == board[j][i+j]) {
 				len_set++;
 				if (len_set >= n_set) return player_set;
 			}
 			else {
 				player_set = board[j][i+j];
-				len_set = (board[j][i+j] ? 1 : 0);
+				len_set = board[j][i+j] ? 1 : 0;
 			}
 			j++;
 		}
 	}
-	for (int i = 0; i < n_cols - n_set; i++) {
+	return 0;
+}
+
+int check_diags_fixed_col_fwd() {
+	for (int i = 0; i <= n_rows - n_set; i++) {
 		int len_set = 0;
 		int player_set = 0;
 		int j = 0;
 		while (i+j < n_rows && j < n_cols) {
-			if (player_set == board[i+j][j]) {
+			if (board[i+j][j] && player_set == board[i+j][j]) {
 				len_set++;
 				if (len_set >= n_set) return player_set;
 			}
 			else {
 				player_set = board[i+j][j];
-				len_set = (board[i+j][j] ? 1 : 0);
+				len_set = board[i+j][j] ? 1 : 0;
 			}
 			j++;
 		}
 	}
-	for (int i = n_cols-1; i >= n_set; i--) {
+	return 0;
+}
+
+int check_diags_fixed_row_bwd() {
+	for (int i = n_cols-1; i >= n_set-1; i--) {
 		int len_set = 0;
 		int player_set = 0;
 		int j = 0;
-		while (j-i >= 0) {
-			if (player_set == board[j][i-j]) {
+		while (i-j >= 0) {
+			if (board[j][i-j] && player_set == board[j][i-j]) {
 				len_set++;
 				if (len_set >= n_set) return player_set;
 			}
@@ -95,23 +103,36 @@ int check_diags() {
 			j++;
 		}
 	}
-	for (int i = n_cols-1; i >= n_set; i--) {
+	return 0;
+}
+
+int check_diags_fixed_col_bwd() {
+	for (int i = 0; i <= n_rows - n_set; i++) { // Iterate forwards over rows
 		int len_set = 0;
 		int player_set = 0;
-		int j = 0;
-		while (j-i >= 0) {
-			if (player_set == board[j][i-j]) {
+		int j = 0; // Fix last column as start point for diagonal
+		while (i+j < n_rows && j < n_cols) { // Iterate backwards over columns. As we go diagonally, the number of elements in the diagonal row is determined by both, row and column starting point.
+			int field = board[i+j][n_cols-j-1];
+			if (field && player_set == field) {
 				len_set++;
 				if (len_set >= n_set) return player_set;
 			}
 			else {
-				player_set = board[i-j][j];
-				len_set = (board[i-j][j] ? 1 : 0);
+				player_set = field;
+				len_set = (field ? 1 : 0);
 			}
 			j++;
 		}
 	}
 	return 0;
+}
+
+int check_diags() {
+	int r;
+	if ((r = check_diags_fixed_row_fwd())) return r;
+	if ((r = check_diags_fixed_col_fwd())) return r;
+	if ((r = check_diags_fixed_row_bwd())) return r;
+	return check_diags_fixed_col_bwd();
 }
 
 int board_full() {
@@ -163,12 +184,11 @@ int set(int row, int col, int player) {
 }
 
 int check() {
-	if (board_full()) return -1;
-	int rows = check_rows();
-	if (rows) return rows;
-	int cols = check_cols();
-	if (cols) return cols;
-	return check_diags();
+	int r;
+	if ((r = check_rows())) return r;
+	if ((r = check_cols())) return r;
+	if ((r = check_diags())) return r;
+	return board_full() ? -1 : 0;
 }
 
 void print_board() {

@@ -15,21 +15,27 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-CARGS = -std=c11 -Wall -g
+CARGS = -std=c11 -Wall -g  # Use C11 as C standard, show all warnings and add debugging info.
 
-play: helpers game
+# Command line interface
+play: helpers game 	
 	gcc $(CARGS) -c src/play.c -o play.o
 	gcc $(CARGS) helpers.o game.o play.o -o play
+	chmod +x play
 
+# Game backend
 game: src/game.c src/game.h src/helpers.h
 	gcc $(CARGS) -c src/game.c -o game.o
 
+# Auxiliary functions
 helpers: src/helpers.c
 	gcc $(CARGS) -c src/helpers.c -o helpers.o
 
+# Assert Suite for game backend
 test_game: game src/test_game.c src/test_game.h
 	gcc $(CARGS) -c src/test_game.c -o test_game.o
 
+# Command line interface for running assert suite(s)
 tests: helpers game test_game src/tests.c src/tests.h
 	gcc $(CARGS) -c src/tests.c -o tests_o.o
 	gcc helpers.o game.o test_game.o tests_o.o -o tests.o

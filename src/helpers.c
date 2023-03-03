@@ -15,22 +15,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Simple auxiliary functions to use
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-char *multiply_string(char *s, int times) {
-	char *result = calloc(times * strlen(s), sizeof(char));
-	for (int i = 0; i < times; i++) {
+// Concat string n times with itself.
+char *multiply_string(char *s, int n) {
+	char *result = calloc(n * strlen(s), sizeof(char));
+	for (int i = 0; i < n; i++) {
 		sprintf(result, "%s%s", result, s);
 	}
 	return result;
 }
 
+// Return smaller of two values
 int min(int a, int b) {
 	return a < b ? a : b;
 }
 
+// Return greater of two values
 int max(int a, int b) {
 	return a > b ? a : b;
 }

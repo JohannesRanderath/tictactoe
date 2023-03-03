@@ -15,12 +15,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Simple command line frontend to play the Tic Tac Toe game provided by the backend.
+
 #include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int turn;
 
+// Get parameters from stdin or use default values and initialize instance variables for new game.
 void start_game() {
 	int rows = 3;
 	int cols = 3;
@@ -46,6 +49,7 @@ void start_game() {
 	turn = 1;
 }
 
+// Get coordinates (starting by 1) until a valid move is possible, do the move and check if the game is over. It's the next players turn.
 int move() {
 	printf("It's your turn, Player %d", turn);
 	if (get_n_players() == 2) printf(" [%c]", turn == 1 ? 'X' : 'O');
@@ -56,7 +60,7 @@ int move() {
 	do {
 		printf("Play on (x y): ");
 		fgets(buff, 20, stdin);
-	}while(sscanf(buff, "%d%d", &col, &row) != 2 || !set(row, col, turn));
+	}while(sscanf(buff, "%d%d", &col, &row) != 2 || !set(row-1, col-1, turn));
 	print_board();
 	int winner = check();
 	if (winner) {

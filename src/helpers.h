@@ -15,6 +15,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-char *multiply_string(char *s, int times);
-int min(int a, int b);
-int max(int a, int b);
+// Simple auxiliary functions to use
+
+char *multiply_string(char *s, int times); // Concat string n times with itself
+int min(int a, int b); // Return smaller of two values
+int max(int a, int b); // Return greater of two values

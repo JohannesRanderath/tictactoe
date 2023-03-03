@@ -15,6 +15,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Run all tests and display results to stdout
+
 #include "test_game.h"
 #include <stdio.h>
 

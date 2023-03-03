@@ -15,6 +15,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Test different public and private functions of game.c. 
+
 void test_get_n_rows();
 void test_get_n_cols();
 void test_set();

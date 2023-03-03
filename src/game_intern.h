@@ -15,6 +15,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Exposing all - public and private - functions of game backend. For test suites.
+
 // Public
 #include "game.h"
 
@@ -30,11 +32,11 @@ int n_set;
 extern int n_players;
 int n_players;
 
-int is_free(int row, int col);
-int check_rows();
-int check_cols();
-int check_diags();
-int check_diags_fixed_row_fwd();
+int is_free(int row, int col); // Check if there is any blank field on the board
+int check_rows(); // Check if there is a horizontal set
+int check_cols(); // Check if there is a vertical set
+int check_diags(); // Check if there is a diagonal set
+int check_diags_fixed_row_fwd(); 
 int check_diags_fixed_col_fwd();
 int check_diags_fixed_row_bwd();
 int check_diags_fixed_col_bwd();

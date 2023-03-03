@@ -19,7 +19,6 @@
 .vscode
 Thumbs.db
 .idea
-*.o
 *.pyc
 *.class
 /bin
@@ -30,4 +29,6 @@ Thumbs.db
 *.tmp
 *.backup
 launch.json
+# Do not include compiled game in git repo
 play
+*.o

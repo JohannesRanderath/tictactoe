@@ -15,11 +15,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-void new_game(int rows, int cols, int len_set, int player);
-void end_game();
-int get_n_rows();
-int get_n_cols();
-int get_n_players();
-int set(int row, int col, int player);
-int check();
-void print_board();
+// Main game backend. No entire game logic but possible actions.
+
+void new_game(int rows, int cols, int len_set, int player); // Initialize instance variables for new game
+void end_game(); // Free dynamically allocated memory
+int get_n_rows(); // Return number of rows on the board
+int get_n_cols(); // Return number of columns on the board
+int get_n_players(); // Return number of players in the game
+int set(int row, int col, int player); // Occupy field on the board if it is not yet. Return 1 if successful, 0 otherwise
+int check(); // Check if there is a valid set on the board. Return -1 if there is a tie, 0 if there is no set nor tie, the number of the player if there is a tie
+void print_board(); // Print a visual representation of the current game state to stdout

@@ -15,6 +15,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Test different public and private functions of game.c. 
+
 #include "game_intern.h"
 #include <assert.h>
 #include <stdio.h>
